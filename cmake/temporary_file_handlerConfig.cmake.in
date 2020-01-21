@@ -1,0 +1,53 @@
+
+###############################################################################
+###############################################################################
+#[[
+
+START OF FILE
+
+<library_name>Cmake.in
+Generated from libCMakeConfig.cmake
+]]
+###############################################################################
+###############################################################################
+
+
+@PACKAGE_INIT@
+
+get_filename_component(CURRENT_DIR ${CMAKE_CURRENT_LIST_FILE} PATH)
+
+include(CMakeFindDependencyMacro)
+
+set(LIBRARY_TARGET_NAME @LIBRARY_TARGET_NAME@)
+set(PROJECT_DEPENDENCY @PROJECT_DEPENDENCY@)
+
+if(NOT ${PROJECT_DEPENDENCY} STREQUAL "")
+	message("
+
+		+++++++++++++++++++++++++++++++++++++++
+		From ${LIBRARY_TARGET_NAME}Config.cmake
+		Project is set to use dependency:
+		${PROJECT_DEPENDENCY} 
+		+++++++++++++++++++++++++++++++++++++++")
+	#find_dependency(${PROJECT_DEPENDENCY} REQUIRED)
+	find_package(${PROJECT_DEPENDENCY} REQUIRED)
+endif(NOT ${PROJECT_DEPENDENCY} STREQUAL "")
+
+if(NOT TARGET ${LIBRARY_TARGET_NAME} AND NOT ${${LIBRARY_TARGET_NAME}_BINARY_DIR})
+  include(${CURRENT_DIR}/${LIBRARY_TARGET_NAME}Targets.cmake)
+endif()
+
+check_required_components(${LIBRARY_TARGET_NAME})
+
+
+###############################################################################
+###############################################################################
+#[[
+
+END OF FILE
+
+.cmake.in
+Generated from libCMakeConfig.cmake
+]]
+###############################################################################
+###############################################################################
