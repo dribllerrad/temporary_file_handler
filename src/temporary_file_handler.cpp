@@ -1,23 +1,60 @@
+#ifndef NDEBUG
+#define _DEBUG
+#endif
+
 #include <temporary_file_handler/temporary_file_handler.hpp>
 #include <random>
 #include <sstream>
 
-temporary_file_handler::temporary_file_handler()
+#ifdef _DEBUG
+#include <iostream>
+#endif
+
+class temporary_file_handler::tfh_impl
 {
-	temporary_directory_path = create_temporary_directory();
+public:
+	std::filesystem::path temporary_directory_path;
+	std::filesystem::path create_temporary_directory();
+};
+
+temporary_file_handler::temporary_file_handler()
+  : tfh_impl_{std::make_unique<tfh_impl>()}
+{
+	tfh_impl_->temporary_directory_path = tfh_impl_->create_temporary_directory();
+
+#ifdef _DEBUG
+	std::cout << "Creating temporary directory: " << tfh_impl_->temporary_directory_path << "\n";
+#endif // _DEBUG
+
 }
 
+
+
+// temporary_file_handler::temporary_file_handler()
+// {
+// #ifdef _DEBUG
+// 	std::cout << "Creating temporary directory: " << temporary_directory_path << "\n";
+// #endif // _DEBUG
+
+// 	temporary_directory_path = create_temporary_directory();
+// }
+
+#ifdef _DEBUG
 temporary_file_handler::~temporary_file_handler(){
-	std::string text = "Deleting temporary directory... \n";
-	std::string e = "echo -e ";
-	std::string command = "exec ";
-	system((command + e + text).c_str());
-	std::filesystem::remove_all(temporary_directory_path);
+
+
+	std::cout << "Deleting temporary directory: " << tfh_impl_->temporary_directory_path << "\n";
+
+
+	std::filesystem::remove_all(tfh_impl_->temporary_directory_path);
 }
+#else
+temporary_file_handler::~temporary_file_handler() = default;
+#endif // _DEBUG
+
 
 std::filesystem::path temporary_file_handler::create_temporary_file()
 {
-	//std::filesystem::path temporary_directory_path = create_temporary_directory();
 	std::random_device ran_dev;
 	std::mt19937 randomizer(ran_dev());
 	std::uniform_int_distribution<uint64_t> distribution(0);
@@ -31,7 +68,7 @@ std::filesystem::path temporary_file_handler::create_temporary_file()
 	{
 		std::stringstream ss;
 		ss << std::hex << distribution(randomizer);
-		file_path = temporary_directory_path / ss.str();
+		file_path = tfh_impl_->temporary_directory_path / ss.str();
 		if (!std::filesystem::exists(file_path))
 		{
 			break;
@@ -45,7 +82,7 @@ std::filesystem::path temporary_file_handler::create_temporary_file()
 	return file_path;
 };
 
-std::filesystem::path temporary_file_handler::create_temporary_directory()
+std::filesystem::path temporary_file_handler::tfh_impl::create_temporary_directory()
 {
 	auto temp_path = std::filesystem::temp_directory_path();
 	std::random_device ran_dev;

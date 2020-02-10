@@ -2,6 +2,7 @@
 #pragma once
 
 #include <filesystem>
+#include <memory>
 
 class temporary_file_handler
 {
@@ -11,6 +12,8 @@ public:
 	std::filesystem::path create_temporary_file();
 
 private:
-	std::filesystem::path temporary_directory_path;
-	std::filesystem::path create_temporary_directory();
+	class tfh_impl;
+	std::unique_ptr<tfh_impl> tfh_impl_;
+
+	
 };

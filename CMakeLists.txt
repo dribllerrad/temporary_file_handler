@@ -14,6 +14,7 @@ cmake_minimum_required(VERSION 3.15 FATAL_ERROR)
 
 set(PROJECT_NAME temporary_file_handler)
 
+<<<<<<< HEAD
 project(
 	${PROJECT_NAME}
 	VERSION 0.1.0.0
@@ -26,10 +27,9 @@ if(NOT ${DEPENDENCY_LIST} STREQUAL "")
 	set(ALIAS_DEPENDENCY_LIST ${DEPENDENCY_LIST})
 	list(LENGTH ${DEPENDENCY_LIST} NUMBER_OF_DEPENDENCIES)
 endif()
+=======
+>>>>>>> dev
 
-if(NOT ${DEPENDENCY_LIST} STREQUAL "")
-	list(TRANSFORM ALIAS_DEPENDENCY_LIST REPLACE "([^;]+)" "\\1::\\1")
-endif() 
 
 project(
     ${PROJECT_NAME}
@@ -50,6 +50,22 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(CMAKE_C_EXTENSIONS OFF)
 set(CMAKE_CXX_EXTENSIONS OFF)
+
+if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
+    add_subdirectory(test)
+endif()
+
+set(DEPENDENCY_LIST )
+if(NOT ${DEPENDENCY_LIST} STREQUAL "")
+	list(REMOVE_DUPLICATES ${DEPENDENCY_LIST})
+	set(ALIAS_DEPENDENCY_LIST ${DEPENDENCY_LIST})
+	list(LENGTH ${DEPENDENCY_LIST} NUMBER_OF_DEPENDENCIES)
+endif()
+
+if(NOT ${DEPENDENCY_LIST} STREQUAL "")
+	list(TRANSFORM ALIAS_DEPENDENCY_LIST REPLACE "([^;]+)" "\\1::\\1")
+endif() 
+
 
 function(update_file path content)
     set(old_content "")
@@ -126,7 +142,7 @@ PROJECT_DEPENDENCY was set
 as ${PUBLIC_PRIVATE}
 **************************")
 
-	target_link_libraries(${LIBRARY_TARGET_NAME} PRIVATE ${ALIAS_DEPENDENCY_LIST})
+	target_link_libraries(${LIBRARY_TARGET_NAME} PUBLIC ${ALIAS_DEPENDENCY_LIST})
 	set(INHERITED_PUBLIC_INCLUDE_DIR $<TARGET_PROPERTY:${DEPENDENCY_LIST},INTERFACE_INCLUDE_DIRECTORIES>)
 endif(NOT ${DEPENDENCY_LIST} STREQUAL "")
 
@@ -143,6 +159,7 @@ target_include_directories(${LIBRARY_TARGET_NAME}
 # Strip the binaries in "release" build
 set_target_properties(${LIBRARY_TARGET_NAME} PROPERTIES LINK_FLAGS_RELEASE -s)
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
+target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Werror)
 
 
 ##############################################
@@ -267,6 +284,8 @@ Dependencies for ${LIBRARY_TARGET_NAME}:
 *******************************************************************************
 ${Reset}"
 )
+
+
 
 
 ###############################################################################
