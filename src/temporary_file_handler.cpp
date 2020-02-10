@@ -1,3 +1,7 @@
+#ifndef NDEBUG
+#define _DEBUG
+#endif
+
 #include <temporary_file_handler/temporary_file_handler.hpp>
 #include <random>
 #include <sstream>
@@ -16,11 +20,12 @@ public:
 temporary_file_handler::temporary_file_handler()
   : tfh_impl_{std::make_unique<tfh_impl>()}
 {
+	tfh_impl_->temporary_directory_path = tfh_impl_->create_temporary_directory();
+
 #ifdef _DEBUG
-	std::cout << "Creating temporary directory: " << temporary_directory_path << "\n";
+	std::cout << "Creating temporary directory: " << tfh_impl_->temporary_directory_path << "\n";
 #endif // _DEBUG
 
-	tfh_impl_->temporary_directory_path = tfh_impl_->create_temporary_directory();
 }
 
 

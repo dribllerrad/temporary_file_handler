@@ -144,6 +144,7 @@ target_include_directories(${LIBRARY_TARGET_NAME}
 # Strip the binaries in "release" build
 set_target_properties(${LIBRARY_TARGET_NAME} PROPERTIES LINK_FLAGS_RELEASE -s)
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
+target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Werror)
 
 
 ##############################################

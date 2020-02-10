@@ -1,7 +1,3 @@
-#ifndef _DEBUG
-#define _DEBUG
-#endif
-
 #include <iostream>
 #include <temporary_file_handler/temporary_file_handler.hpp>
 
