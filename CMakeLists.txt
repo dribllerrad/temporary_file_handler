@@ -14,21 +14,6 @@ cmake_minimum_required(VERSION 3.15 FATAL_ERROR)
 
 set(PROJECT_NAME temporary_file_handler)
 
-<<<<<<< HEAD
-project(
-	${PROJECT_NAME}
-	VERSION 0.1.0.0
-	LANGUAGES CXX
-	)
-
-set(DEPENDENCY_LIST )
-if(NOT ${DEPENDENCY_LIST} STREQUAL "")
-	list(REMOVE_DUPLICATES ${DEPENDENCY_LIST})
-	set(ALIAS_DEPENDENCY_LIST ${DEPENDENCY_LIST})
-	list(LENGTH ${DEPENDENCY_LIST} NUMBER_OF_DEPENDENCIES)
-endif()
-=======
->>>>>>> dev
 
 
 project(
