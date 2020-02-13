@@ -5,7 +5,7 @@
 
 START OF FILE
 
-<library_name>Cmake.in
+@LIBRARY_TARGET_NAME@.cmake.in
 Generated from libCMakeConfig.cmake
 ]]
 ###############################################################################
@@ -19,9 +19,9 @@ get_filename_component(CURRENT_DIR ${CMAKE_CURRENT_LIST_FILE} PATH)
 include(CMakeFindDependencyMacro)
 
 set(LIBRARY_TARGET_NAME @LIBRARY_TARGET_NAME@)
-set(PROJECT_DEPENDENCY @PROJECT_DEPENDENCY@)
+set(PROJECT_DEPENDENCY @DEPENDENCY_LIST@)
 
-if(NOT ${PROJECT_DEPENDENCY} STREQUAL "")
+if(PROJECT_DEPENDENCY)
 	message("
 
 		+++++++++++++++++++++++++++++++++++++++
@@ -31,7 +31,7 @@ if(NOT ${PROJECT_DEPENDENCY} STREQUAL "")
 		+++++++++++++++++++++++++++++++++++++++")
 	#find_dependency(${PROJECT_DEPENDENCY} REQUIRED)
 	find_package(${PROJECT_DEPENDENCY} REQUIRED)
-endif(NOT ${PROJECT_DEPENDENCY} STREQUAL "")
+endif()
 
 if(NOT TARGET ${LIBRARY_TARGET_NAME} AND NOT ${${LIBRARY_TARGET_NAME}_BINARY_DIR})
   include(${CURRENT_DIR}/${LIBRARY_TARGET_NAME}Targets.cmake)
@@ -46,7 +46,7 @@ check_required_components(${LIBRARY_TARGET_NAME})
 
 END OF FILE
 
-.cmake.in
+@LIBRARY_TARGET_NAME@.cmake.in
 Generated from libCMakeConfig.cmake
 ]]
 ###############################################################################
