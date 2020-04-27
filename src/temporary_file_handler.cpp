@@ -29,16 +29,6 @@ temporary_file_handler::temporary_file_handler()
 }
 
 
-
-// temporary_file_handler::temporary_file_handler()
-// {
-// #ifdef _DEBUG
-// 	std::cout << "Creating temporary directory: " << temporary_directory_path << "\n";
-// #endif // _DEBUG
-
-// 	temporary_directory_path = create_temporary_directory();
-// }
-
 #ifdef _DEBUG
 temporary_file_handler::~temporary_file_handler(){
 
@@ -61,7 +51,7 @@ std::filesystem::path temporary_file_handler::create_temporary_file()
 	std::filesystem::path file_path;
 	std::stringstream ss;
 	ss << std::hex << distribution(randomizer);
-	
+
 	uint8_t max_tries = 100;
 	uint8_t i = 0;
 	while (true)
