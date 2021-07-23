@@ -262,17 +262,16 @@ endif()
 
 # Final summary
 message("
-${BoldWhite}
 *******************************************************************************
 CMake configuration completed with the following values:
 Library Name:
-	${BoldCyan}${LIBRARY_TARGET_NAME}${BoldWhite}
-Alias for use with FindPackage():
-	${BoldCyan}${LIBRARY_TARGET_NAME}::${LIBRARY_TARGET_NAME}${BoldWhite}
+	${LIBRARY_TARGET_NAME}
+Alias for use with target_link_libraries():
+	${LIBRARY_TARGET_NAME}::${LIBRARY_TARGET_NAME}
 Dependencies for ${LIBRARY_TARGET_NAME}:
-	${BoldCyan}${DEPENDENCY_MESSAGE}${BoldWhite}
+	${DEPENDENCY_MESSAGE}
 *******************************************************************************
-${Reset}"
+"
 )
 
 ###############################################################################
