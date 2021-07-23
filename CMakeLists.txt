@@ -40,13 +40,6 @@ endif()
 
 set(DEPENDENCY_LIST  )
 
-# if(DEPENDENCY_LIST)
-# 	list(REMOVE_DUPLICATES DEPENDENCY_LIST)
-# 	set(ALIAS_DEPENDENCY_LIST ${DEPENDENCY_LIST})
-# 	list(LENGTH DEPENDENCY_LIST NUMBER_OF_DEPENDENCIES)
-# 	list(TRANSFORM ALIAS_DEPENDENCY_LIST REPLACE "([^;]+)" "\\1::\\1")
-# endif()
-
 function(update_file path content)
     set(old_content "")
     if(EXISTS "${path}")
@@ -147,11 +140,6 @@ endif()
 
 target_link_libraries(${LIBRARY_TARGET_NAME} PUBLIC ${filesystem_lib})
 
-# if(DEPENDENCY_LIST)
-# 	target_link_libraries(${LIBRARY_TARGET_NAME} PUBLIC ${ALIAS_DEPENDENCY_LIST})
-# 	set(INHERITED_PUBLIC_INCLUDE_DIR $<TARGET_PROPERTY:${DEPENDENCY_LIST},INTERFACE_INCLUDE_DIRECTORIES>)
-# endif()
-
 target_include_directories(${LIBRARY_TARGET_NAME}
     PUBLIC
         #${CMAKE_CURRENT_LIST_DIR}/include
@@ -166,8 +154,6 @@ target_include_directories(${LIBRARY_TARGET_NAME}
 set_target_properties(${LIBRARY_TARGET_NAME} PROPERTIES LINK_FLAGS_RELEASE -s)
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
 target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Werror)
-
-
 
 ##############################################
 # Installation config
@@ -191,8 +177,9 @@ install(TARGETS ${LIBRARY_TARGET_NAME}
 
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
-#Export the targets to a script
-install(EXPORT ${LIBRARY_TARGET_NAME}Targets
+#Install the Export target
+install(
+  EXPORT ${LIBRARY_TARGET_NAME}Targets
   FILE
     ${LIBRARY_TARGET_NAME}Targets.cmake
   NAMESPACE
@@ -211,8 +198,6 @@ export(
 	FILE ${CMAKE_CURRENT_BINARY_DIR}/${LIBRARY_TARGET_NAME}Targets.cmake
 	NAMESPACE ${LIBRARY_TARGET_NAME}::
 )
-
-export(EXPORT ${LIBRARY_TARGET_NAME}Targets FILE ${CMAKE_CURRENT_BINARY_DIR}/${LIBRARY_TARGET_NAME}Targets.cmake NAMESPACE ${LIBRARY_TARGET_NAME}::)
 
 #Create a ConfigVersion.cmake file
 include(CMakePackageConfigHelpers)
@@ -234,7 +219,6 @@ install(FILES
     DESTINATION ${INSTALL_CONFIGDIR}
 )
 
-
 #Register package in user's package registry
 export(PACKAGE ${LIBRARY_TARGET_NAME})
 
@@ -249,26 +233,25 @@ if(NOT TARGET uninstall)
         COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake)
 endif(NOT TARGET uninstall)
 
-
 # Colorized Output Setup
 if(NOT WIN32)
   string(ASCII 27 Esc)
-  set(Reset 		"${Esc}[m")
-  set(Bold  		"${Esc}[1m")
-  set(Red         	"${Esc}[31m")
-  set(Green       	"${Esc}[32m")
-  set(Blue        	"${Esc}[34m")
-  set(Cyan        	"${Esc}[36m")
-  set(Magenta     	"${Esc}[35m")
-  set(Yellow      	"${Esc}[33m")
-  set(White       	"${Esc}[37m")
-  set(BoldRed     	"${Esc}[1;31m")
-  set(BoldGreen   	"${Esc}[1;32m")
-  set(BoldBlue    	"${Esc}[1;34m")
-  set(BoldCyan    	"${Esc}[1;36m")
-  set(BoldMagenta 	"${Esc}[1;35m")
-  set(BoldYellow  	"${Esc}[1;33m")
-  set(BoldWhite   	"${Esc}[1;37m")
+  set(Reset         "${Esc}[m")
+  set(Bold          "${Esc}[1m")
+  set(Red           "${Esc}[31m")
+  set(Green         "${Esc}[32m")
+  set(Blue          "${Esc}[34m")
+  set(Cyan          "${Esc}[36m")
+  set(Magenta       "${Esc}[35m")
+  set(Yellow        "${Esc}[33m")
+  set(White         "${Esc}[37m")
+  set(BoldRed       "${Esc}[1;31m")
+  set(BoldGreen     "${Esc}[1;32m")
+  set(BoldBlue      "${Esc}[1;34m")
+  set(BoldCyan      "${Esc}[1;36m")
+  set(BoldMagenta   "${Esc}[1;35m")
+  set(BoldYellow    "${Esc}[1;33m")
+  set(BoldWhite     "${Esc}[1;37m")
 endif()
 
 if(DEPENDENCY_LIST)
@@ -291,7 +274,6 @@ Dependencies for ${LIBRARY_TARGET_NAME}:
 *******************************************************************************
 ${Reset}"
 )
-
 
 ###############################################################################
 ###############################################################################
