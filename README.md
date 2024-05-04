@@ -31,7 +31,7 @@ cmake .. && cmake --build .
 
 ## Usage Examples
 ### Creating a Temporary File
-```
+```cpp
 #include "temporary_file_handler.hpp"
 
 int main() {
@@ -47,7 +47,7 @@ int main() {
 ```
 
 ### Customizing File Parameters
-```
+```cpp
 #include "temporary_file_handler.hpp"
 
 int main() {
@@ -68,8 +68,6 @@ Contributions are what make the open-source community such an amazing place to l
 ## License
 Distributed under the MIT License. See LICENSE for more information.
 
-### Contact
-Your Name - @your_twitter
 
 Project Link: https://github.com/dribllerrad/temporary_file_handler
 
