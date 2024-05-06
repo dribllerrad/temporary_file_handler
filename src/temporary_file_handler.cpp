@@ -29,19 +29,14 @@ temporary_file_handler::temporary_file_handler()
 }
 
 
+temporary_file_handler::~temporary_file_handler()
+{
 #ifdef _DEBUG
-temporary_file_handler::~temporary_file_handler(){
-
-
 	std::cout << "Deleting temporary directory: " << tfh_impl_->temporary_directory_path << "\n";
-
+#endif // _DEBUG
 
 	std::filesystem::remove_all(tfh_impl_->temporary_directory_path);
 }
-#else
-temporary_file_handler::~temporary_file_handler() = default;
-#endif // _DEBUG
-
 
 std::filesystem::path temporary_file_handler::create_temporary_file()
 {

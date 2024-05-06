@@ -14,6 +14,4 @@ public:
 private:
 	class tfh_impl;
 	std::unique_ptr<tfh_impl> tfh_impl_;
-
-	
 };
